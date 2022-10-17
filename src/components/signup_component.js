@@ -8,9 +8,8 @@ export default class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fname: "",
-      lname: "",
-      email: "",
+      name: "",
+      mobile: "",
       password: "",
       verifyButton: false,
       verifyOtp: false,
@@ -61,7 +60,7 @@ export default class SignUp extends Component {
       alert("Verification Done");
       this.state({
         verified: true,
-        verifyOtp: false,
+        verifyOtp: true,
       })
     }).catch((error) => {
       alert("Invalid Otp");
@@ -83,8 +82,8 @@ export default class SignUp extends Component {
   handleSubmit(e) {
     e.preventDefault();
     if(this.state.verified) {
-      const { fname, lname, mobile, password } = this.state;
-      console.log(fname, lname, mobile, password);
+      const { name, mobile, password } = this.state;
+      console.log(name, mobile, password);
       fetch("http://localhost:5000/register", {
         method: "POST",
         crossDomain: true,
@@ -94,9 +93,8 @@ export default class SignUp extends Component {
           "Access-Control-Allow-Origin": "*",
         },
         body: JSON.stringify({
-          fname,
+          name,
           mobile,
-          lname,
           password,
         }),
       })
@@ -115,16 +113,16 @@ export default class SignUp extends Component {
         <h3>Sign Up</h3>
         <div id="recaptcha-container"></div>
         <div className="mb-3">
-          <label>First name</label>
+          <label>Name</label>
           <input
             type="text"
             className="form-control"
-            placeholder="First name"
-            onChange={(e) => this.setState({ fname: e.target.value })}
+            placeholder="Your name"
+            onChange={(e) => this.setState({ name: e.target.value })}
           />
         </div>
 
-        <div className="mb-3">
+        {/* <div className="mb-3">
           <label>Last name</label>
           <input
             type="text"
@@ -132,7 +130,7 @@ export default class SignUp extends Component {
             placeholder="Last name"
             onChange={(e) => this.setState({ lname: e.target.value })}
           />
-        </div>
+        </div> */}
 
         <div className="mb-3">
           <label>Mobile Phone</label>
