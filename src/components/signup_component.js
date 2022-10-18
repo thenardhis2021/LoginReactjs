@@ -9,6 +9,7 @@ export default class SignUp extends Component {
     super(props);
     this.state = {
       name: "",
+      email: "",
       mobile: "",
       password: "",
       verifyButton: false,
@@ -52,16 +53,17 @@ export default class SignUp extends Component {
   }
 
   verifyCode() {
-    window.confirmationResult.confirm(this.state.otp)
+    window.confirmationResult
+    .confirm(this.state.otp)
     .then((result) => {
       // User signed in successfully.
       const user = result.user;
       console.log(user);
       alert("Verification Done");
-      this.state({
+      this.setState({
         verified: true,
-        verifyOtp: true,
-      })
+        verifyOtp: false,
+      });
     }).catch((error) => {
       alert("Invalid Otp");
       // User couldn't sign in (bad verification code?)
@@ -82,8 +84,8 @@ export default class SignUp extends Component {
   handleSubmit(e) {
     e.preventDefault();
     if(this.state.verified) {
-      const { name, mobile, password } = this.state;
-      console.log(name, mobile, password);
+      const { name, email, mobile, password } = this.state;
+      console.log(name, email, mobile, password);
       fetch("http://localhost:5000/register", {
         method: "POST",
         crossDomain: true,
@@ -94,6 +96,7 @@ export default class SignUp extends Component {
         },
         body: JSON.stringify({
           name,
+          email,
           mobile,
           password,
         }),
@@ -117,20 +120,20 @@ export default class SignUp extends Component {
           <input
             type="text"
             className="form-control"
-            placeholder="Your name"
+            placeholder="Enter name"
             onChange={(e) => this.setState({ name: e.target.value })}
           />
         </div>
 
-        {/* <div className="mb-3">
-          <label>Last name</label>
+        <div className="mb-3">
+          <label>Email address</label>
           <input
-            type="text"
+            type="email"
             className="form-control"
-            placeholder="Last name"
-            onChange={(e) => this.setState({ lname: e.target.value })}
+            placeholder="Enter email"
+            onChange={(e) => this.setState({ email: e.target.value })}
           />
-        </div> */}
+        </div>
 
         <div className="mb-3">
           <label>Mobile Phone</label>
@@ -179,16 +182,6 @@ export default class SignUp extends Component {
           />
         </div>
         ) :null}
-
-        {/* <div className="mb-3">
-          <label>Email address</label>
-          <input
-            type="email"
-            className="form-control"
-            placeholder="Enter email"
-            onChange={(e) => this.setState({ email: e.target.value })}
-          />
-        </div> */}
 
         <div className="mb-3">
           <label>Password</label>
