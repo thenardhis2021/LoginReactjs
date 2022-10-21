@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./Authentication.css";
 
 export default class Login extends Component {
   constructor(props) {
@@ -32,7 +33,9 @@ export default class Login extends Component {
         if (data.status == "ok") {
           alert("login successful");
           window.localStorage.setItem("token", data.data);
-          window.location.href = "./userDetails";
+          window.location.href = "./dashboard";
+        } else {
+          alert("email or password wrong");
         }
       });
   }
@@ -60,6 +63,9 @@ export default class Login extends Component {
             onChange={(e) => this.setState({ password: e.target.value })}
           />
         </div>
+        <p className="forgot-password text-right">
+          Forgot <a href="/reset">password?</a>
+        </p>
 
         <div className="mb-3">
           <div className="custom-control custom-checkbox">

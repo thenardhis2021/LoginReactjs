@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import app from "./firebase_config";
+import "./Authentication.css";
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
 const auth = getAuth(app);
@@ -81,6 +82,19 @@ export default class SignUp extends Component {
     });
   }
 
+  // passwordLength(e) {
+  //   if(password.length >= 5) {
+  //     console.log("User registered");
+  //   } else {
+  //     alert("Password must be minimum 5 characters");
+  //   }
+  //   // this.setState({ password: e.target.value }), function() {
+  //   //   if(password.state.length >= 5) {
+  //   //     alert("Password must be minimum 5 characters");
+  //   //   }
+  //   // }
+  // }
+
   handleSubmit(e) {
     e.preventDefault();
     if(this.state.verified) {
@@ -104,6 +118,7 @@ export default class SignUp extends Component {
         .then((res) => res.json())
         .then((data) => {
           console.log(data, "userRegister");
+          alert("User has been registered");
         });
     } else {
       alert("Please Verify Mobile");
@@ -122,6 +137,7 @@ export default class SignUp extends Component {
             className="form-control"
             placeholder="Enter name"
             onChange={(e) => this.setState({ name: e.target.value })}
+            required
           />
         </div>
 
@@ -132,6 +148,7 @@ export default class SignUp extends Component {
             className="form-control"
             placeholder="Enter email"
             onChange={(e) => this.setState({ email: e.target.value })}
+            required
           />
         </div>
 
@@ -140,7 +157,7 @@ export default class SignUp extends Component {
           <input
             type="number"
             className="form-control"
-            placeholder="Enter mobile"
+            placeholder="(+62) Enter mobile"
             onChange={(e) => this.changeMobile(e)}
           />
           {this.state.verifyButton? (
@@ -190,11 +207,16 @@ export default class SignUp extends Component {
             className="form-control"
             placeholder="Enter password"
             onChange={(e) => this.setState({ password: e.target.value })}
+            required
           />
         </div>
 
         <div className="d-grid">
-          <button type="submit" className="btn btn-primary">
+          <button 
+          type="submit" 
+          className="btn btn-primary" 
+          // onClick={this.passwordLength}
+          >
             Sign Up
           </button>
         </div>

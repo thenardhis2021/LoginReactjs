@@ -1,0 +1,51 @@
+p {
+    font-size: 15pt;
+    font-family: "Poppins", sans-serif;
+    position: relative;
+}
+.landing {
+    padding: 1% 1% 1% 5%;
+    width: 95%;
+    background-image: url('../images/travel1.PNG');
+    background-position: center;
+    background-size: cover;
+}
+.landing_image {
+    width: 100px;
+    height: 160px;
+    padding: 20px;
+    position: absolute;
+    top: 5px;
+    left: 200px;
+}
+.lahan_pertanian {
+    width: 500px;
+    height: 375px;
+    padding: 10px;
+}
+.visi_misi {
+    background-color: #ba45a5;
+    padding: 12px;
+}
+.form-authentication {
+    background-color: rgba(32, 192, 192, 0.9);
+    padding: 2px;
+    height: 150px;
+}
+.contact {
+    padding: 5px;
+    background-color: #bbffe4;
+}
+li {
+    padding: 3px;
+}
+.register-grid {
+    position: absolute;
+    top: 65px;
+    right: 350px;
+}
+.login-grid {
+    position: absolute;
+    top: 65px;
+    right: 250px;
+}
