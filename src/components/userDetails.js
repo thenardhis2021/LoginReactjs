@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./Profile.css";
 
 export default class UserDetails extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ export default class UserDetails extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="profile">
         Name<h1>{this.state.userData.name}</h1>
         Email <h1>{this.state.userData.email}</h1>
       </div>

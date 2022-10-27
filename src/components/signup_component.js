@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import app from "./firebase_config";
-import "./Authentication.css";
+import "./reset.css";
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
 const auth = getAuth(app);
@@ -21,6 +21,7 @@ export default class SignUp extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onSignInSubmit = this.onSignInSubmit.bind(this);
     this.verifyCode = this.verifyCode.bind(this);
+    // this.passwordRequirement = this.passwordRequirement.bind(this);
   }
 
   onCaptchVerify() {
@@ -82,19 +83,6 @@ export default class SignUp extends Component {
     });
   }
 
-  // passwordLength(e) {
-  //   if(password.length >= 5) {
-  //     console.log("User registered");
-  //   } else {
-  //     alert("Password must be minimum 5 characters");
-  //   }
-  //   // this.setState({ password: e.target.value }), function() {
-  //   //   if(password.state.length >= 5) {
-  //   //     alert("Password must be minimum 5 characters");
-  //   //   }
-  //   // }
-  // }
-
   handleSubmit(e) {
     e.preventDefault();
     if(this.state.verified) {
@@ -127,103 +115,108 @@ export default class SignUp extends Component {
   }
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <h3>Sign Up</h3>
-        <div id="recaptcha-container"></div>
-        <div className="mb-3">
-          <label>Name</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Enter name"
-            onChange={(e) => this.setState({ name: e.target.value })}
-            required
-          />
-        </div>
+      <div className="outer">
+        <div className="card">
+          <form onSubmit={this.handleSubmit}>
+            <h3>Sign Up</h3>
+            <div id="recaptcha-container"></div>
+            <div className="mb-3">
+              <label>Name</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter name"
+                onChange={(e) => this.setState({ name: e.target.value })}
+                required
+              />
+            </div>
 
-        <div className="mb-3">
-          <label>Email address</label>
-          <input
-            type="email"
-            className="form-control"
-            placeholder="Enter email"
-            onChange={(e) => this.setState({ email: e.target.value })}
-            required
-          />
-        </div>
+            <div className="mb-3">
+              <label>Email address</label>
+              <input
+                type="email"
+                className="form-control"
+                placeholder="Enter email"
+                onChange={(e) => this.setState({ email: e.target.value })}
+                required
+              />
+            </div>
 
-        <div className="mb-3">
-          <label>Mobile Phone</label>
-          <input
-            type="number"
-            className="form-control"
-            placeholder="(+62) Enter mobile"
-            onChange={(e) => this.changeMobile(e)}
-          />
-          {this.state.verifyButton? (
-          <input
-            type="button"
-            value= {this.state.verified ? "verified": "verify"}
-            onClick={this.onSignInSubmit}
-            style={{
-              backgroundColor: "blue",
-              width: "100%",
-              padding: 8,
-              color: "white",
-              border:"none",
-            }}
-          />
-          ):null}
-        </div>
+            <div className="mb-3">
+              <label>Mobile Phone</label>
+              <input
+                type="number"
+                className="form-control"
+                placeholder="(+62) Enter mobile"
+                onChange={(e) => this.changeMobile(e)}
+              />
+              {this.state.verifyButton? (
+              <input
+                type="button"
+                value= {this.state.verified ? "verified": "verify"}
+                onClick={this.onSignInSubmit}
+                style={{
+                  backgroundColor: "blue",
+                  width: "100%",
+                  padding: 8,
+                  color: "white",
+                  border:"none",
+                }}
+              />
+              ):null}
+            </div>
 
-        {this.state.verifyOtp? (
-        <div className="mb-3">
-          <label>OTP</label>
-          <input
-            type="number"
-            className="form-control"
-            placeholder="Enter OTP"
-            onChange={(e) => this.setState({ otp: e.target.value })}
-          />
-          <input
-            type="button"
-            value="OTP"
-            onClick={this.verifyCode}
-            style={{
-              backgroundColor: "blue",
-              width: "100%",
-              padding: 5,
-              color: "white",
-              border:"none",
-            }}
-          />
-        </div>
-        ) :null}
+            {this.state.verifyOtp? (
+            <div className="mb-3">
+              <label>OTP</label>
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Enter OTP"
+                onChange={(e) => this.setState({ otp: e.target.value })}
+              />
+              <input
+                type="button"
+                value="OTP"
+                onClick={this.verifyCode}
+                style={{
+                  backgroundColor: "blue",
+                  width: "100%",
+                  padding: 5,
+                  color: "white",
+                  border:"none",
+                }}
+              />
+            </div>
+            ) :null}
 
-        <div className="mb-3">
-          <label>Password</label>
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Enter password"
-            onChange={(e) => this.setState({ password: e.target.value })}
-            required
-          />
-        </div>
+            <div className="mb-3">
+              <label>Password</label>
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Enter password"
+                minLength = {6}
+                maxLength = {25}
+                onChange={(e) => this.setState({ password: e.target.value })}
+                required
+              />
+            </div>
 
-        <div className="d-grid">
-          <button 
-          type="submit" 
-          className="btn btn-primary" 
-          // onClick={this.passwordLength}
-          >
-            Sign Up
-          </button>
+            <div className="d-grid">
+              <button 
+                type="submit" 
+                className="btn btn-primary" 
+              >
+                Sign Up
+              </button>
+            </div>
+            <p className="forgot-password text-right">
+              Already registered <a href="/sign-in">sign in?</a>
+            </p>
+          </form>
         </div>
-        <p className="forgot-password text-right">
-          Already registered <a href="/sign-in">sign in?</a>
-        </p>
-      </form>
+      </div>
     );
   }
 }

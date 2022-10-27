@@ -1,5 +1,5 @@
-import React from 'react'
-import './Dashboard.css'
+import React from 'react';
+import './Dashboard.css';
 import {Link} from 'react-router-dom';
 import { useRef, useState, useEffect } from "react";
 import Navbar from '../components/Navbar';
@@ -15,21 +15,39 @@ function Dashboard() {
     setPreview(filePreview)
   }
 
-  
+  const [isLogin, SetIsLogin] = useState(false);
+    const [sidebar, setSidebar] = useState(false);
+    const showSidebar = () => setSidebar(!sidebar);
 
-  return (
-    
+    useEffect(() => {
+        let token = localStorage.getItem('token');
+        if (token) {
+            SetIsLogin(true);
+        } else {
+            SetIsLogin(false);
+        }
+    }, []);
+
+    const logout = () => {
+        localStorage.removeItem('token');
+        SetIsLogin(false)
+    };
+
+  return (    
     <div className='dashboard'>
     <Navbar />
     <h1></h1>
 
     {file && <img src={preview} alt={file.name} style={{width: "400px"}}/>}
     <div className='fileinput'>
-    <input type="file" name="file" onChange={(e) => handleChange(e)}/>
+      <input type="file" name="file" onChange={(e) => handleChange(e)}/>
     </div>
     
     <Link to='/visualize'>
-    <button className='btn-viz' onClick=''>Visualize</button>
+      <button className='btn-viz' onClick=''>Visualize</button>
+    </Link>
+    <Link to='/'>
+      <button className='btn-viz' onClick={logout}>Log out</button>
     </Link>
     </div>
   );

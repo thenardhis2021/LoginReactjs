@@ -1,7 +1,7 @@
 // import { sendPasswordResetEmail } from 'firebase/auth';
 import React, {Component} from 'react';
-import "./Authentication.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "./reset.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 
 // export default class Reset extends Component {
     
@@ -209,8 +209,9 @@ export default class Reset extends Component {
 
   validation() {
     var msg = {};
-    if(this.state.input["password"] != this.state.input["confirmPassword"]) {
-      msg["password"] = "Password is not match";
+    if(this.state.input["newPassword"] != this.state.input["confirmPassword"]) {
+      msg["newPassword"] = "Password is not match";
+      alert("Password is not match");
     }
     else {
       msg["confirmPassword"] = "Password is match";
@@ -223,8 +224,8 @@ export default class Reset extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { email, password, confirmPassword } = this.state;
-    console.log(email, password, confirmPassword);
+    const { email, newPassword, confirmPassword } = this.state;
+    console.log(email, newPassword, confirmPassword);
     fetch("http://localhost:5000/forgot-password", {
       method: "POST",
       crossDomain: true,
@@ -235,7 +236,7 @@ export default class Reset extends Component {
       },
       body: JSON.stringify({
         email,
-        password,
+        newPassword,
         confirmPassword,
       }),
     })
@@ -243,47 +244,49 @@ export default class Reset extends Component {
       .then((data) => {
         console.log(data, "userRegister");
         if (data.status == "ok") {
-          alert("login successful");
+          alert("password changes successful");
           window.localStorage.setItem("token", data.data);
           window.location.href = "./dashboard";
         } else {
-          alert("email or password wrong");
+          alert("invalid password");
         }
       });
     if(this.validation()) {
       var input = {};
-      input["password"] = "";
+      input["newPassword"] = "";
       input["confirmPassword"]="";
     }
   }
 
   render() {
     return(
-      <div>
-        <center>
-          <h2>Forgot Password</h2>
-        </center>
-        <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            Email:
-            <input type="email" className="form-control" placeholder="Enter email" required />
-          </div>
-          <div className="form-group">
-            Password:
-            <input type="password" className="form-control" name="password" value={this.state.input.password} onChange={this.confirmPassword} placeholder="Enter password" required />
-          </div>
-          <div className="form-group">
-            Confirm Password:
-            <input type="password" className="form-control" name="confirmPassword" value={this.state.input.confirmPassword} placeholder="Enter confirm password" required />
-          </div>
-          <div className="text-danger">
-            {this.state.msg.password}
-          </div>
-          <div className="text-success">
-            {this.state.msg.confirmPassword}
-          </div>
-          <input type="submit" className="btn-success" value="submit" />
-        </form>
+      <div className="outer">
+        <div className="card">
+          <center>
+            <h2>Forgot Password</h2>
+          </center>
+          <form onSubmit={this.handleSubmit}>
+            <div className="form-group">
+              Email:
+              <input type="email" className="form-control" placeholder="Enter email" required />
+            </div>
+            <div className="form-group">
+              New Password:
+              <input type="password" className="form-control" name="newPassword" minLength ={6} maxLength={25}  value={this.state.input.newPassword} onChange={this.confirmPassword} placeholder="Enter new password" required />
+            </div>
+            <div className="form-group">
+              Confirm Password:
+              <input type="password" className="form-control" name="confirmPassword" minLength={6} maxLength={25} value={this.state.input.confirmPassword} placeholder="Enter confirm password" required />
+            </div>
+            <div className="text-danger">
+              {this.state.msg.newPassword}
+            </div>
+            <div className="text-success">
+              {this.state.msg.confirmPassword}
+            </div>
+            <input type="submit" className="btn btn-success" value="submit" />
+          </form>
+        </div>
       </div>
     );
   }
